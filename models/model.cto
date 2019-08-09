@@ -1,0 +1,38 @@
+namespace org.acme.model
+
+asset Produto identified by nome {
+    o String nome
+    o String descricao
+    o Double valor
+    --> Membro proprietario
+}
+
+enum EstadoLeilao {
+  o ABERTO
+  o FECHADO
+}
+
+asset Leilao identified by leilaoId {
+    o String leilaoId
+    o EstadoLeilao estadoLeilao
+    o Double valorInicial
+    o Double valorFinal
+  	o Lance[] lances optional
+    --> Produto produto
+}
+
+participant Membro identified by membroId {
+    o String membroId
+    o String nome
+    o Double saldo
+}
+
+transaction Lance {
+    o Double valor
+  	--> Leilao leilao
+    --> Membro comprador
+}
+
+transaction FinalizarLeilao {
+  	--> Leilao leilao
+}
